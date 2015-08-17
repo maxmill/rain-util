@@ -1,5 +1,5 @@
 var gulp = require('gulp');
-var esnext = require('gulp-esnext');
+var babel = require('gulp-babel');
 
 gulp.task('default', function () {
     gulp.run('transpile');
@@ -7,6 +7,6 @@ gulp.task('default', function () {
 
 gulp.task('transpile', function () {
     return gulp.src(['./lib/*.js'])
-        .pipe(esnext())
+        .pipe(babel())
         .pipe(gulp.dest('bin/'));
 });

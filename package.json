@@ -1,34 +1,36 @@
 {
   "name": "rain-util",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "author": "Max Millien",
-  "description": "useful es6 utilities",
+  "description": "useful io.js es6 utilities",
   "main": "./bin",
   "repository": {
     "type": "git",
-    "url": "https://maxmill@bitbucket.org/maxmill/rain-util.git"
+    "url": "https://www.github.com/maxmill/rain-util.git"
   },
   "license": "MIT",
   "scripts": {
     "prestart": "gulp",
-    "start": "node ./bin",
-    "test": "node --harmony  ./test"
+    "test": "node ./test"
   },
+  "keywords": [
+    "koa",
+    "postgres",
+    "http",
+    "fs",
+    "utils"
+  ],
   "dependencies": {
-    "co": "^4.5.4",
-    "eventemitter3": "^1.1.0",
-    "immutable": "3.x.x",
+    "immutable": "3.x",
     "postgres-gen": "0.x",
     "postgres-gen-dao": "0.x",
-    "koa-request": "1.x.x",
-    "mschema": "^0.5.5",
-    "request": "^2.60.0"
+    "request": "2.x"
   },
   "devDependencies": {
     "koa": "*",
-    "expect.js": "0.x.x",
+    "expect.js": "0.x",
     "gulp": "3.x.x",
-    "gulp-esnext": "*",
-    "supertest": "^1.0.1"
+    "gulp-babel": "5.x",
+    "supertest": "1.0.x"
   }
 }
