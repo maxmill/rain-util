@@ -3,34 +3,43 @@
   "version": "0.0.5",
   "author": "Max Millien",
   "description": "useful io.js es6 utilities",
-  "main": "./bin",
   "repository": {
     "type": "git",
     "url": "https://www.github.com/maxmill/rain-util.git"
   },
   "license": "MIT",
+  "main": "./bin",
   "scripts": {
-    "prestart": "gulp",
-    "test": "node ./test"
+    "prestart": "fly",
+    "test": "tape ./test"
   },
   "keywords": [
     "koa",
     "postgres",
     "http",
     "fs",
-    "utils"
+    "utils",
+    "co",
+    "downloader",
+    "jhipster",
+    "schema"
   ],
   "dependencies": {
+    "co": "4.6.x",
+    "co-fs": "*",
     "immutable": "3.x",
     "postgres-gen": "0.x",
     "postgres-gen-dao": "0.x",
-    "request": "2.x"
+    "request": "2.x",
+    "pg": "4.x"
   },
   "devDependencies": {
-    "koa": "*",
-    "expect.js": "0.x",
-    "gulp": "3.x.x",
-    "gulp-babel": "5.x",
-    "supertest": "1.0.x"
+    "fly": "0.x",
+    "fly-babel": "0.x",
+    "tape": "4.2.x",
+    "tape-catch": "1.0.x"
+  },
+  "engines": {
+    "node": "> 0.11"
   }
 }

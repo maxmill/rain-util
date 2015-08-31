@@ -30,7 +30,7 @@ if($postgres) {
     console.log(b.id + ' - ' + b.createdAt + ' - ' + b.updatedAt); // values are loaded back :)
   });
 
-  $postgres.transaction(function*() {
+  $postgres.db.transaction(function*() {
     var b = yield $postgres.tables.books.findOne('id = ?', 1);  // b is book with id 1
     yield $postgres.dao.delete(b); // delete by model throws if more than one row is affected
     yield $postgres.dao.delete('published > 1967'); // delete by query, returns count
