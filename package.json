@@ -1,8 +1,8 @@
 {
   "name": "rain-util",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "author": "Max Millien",
-  "description": "useful io.js es6 utilities",
+  "description": "node v4 es6 utilities",
   "repository": {
     "type": "git",
     "url": "https://www.github.com/maxmill/rain-util.git"
@@ -10,28 +10,31 @@
   "license": "MIT",
   "main": "./bin",
   "scripts": {
+    "clean": "npm cache clean && rm -rf node_modules bin data",
+    "build": "fly build",
     "prestart": "fly",
-    "test": "tape ./test"
+    "test": "npm build && tape ./test"
   },
   "keywords": [
     "koa",
     "postgres",
     "http",
     "fs",
+    "mkdirp",
     "utils",
     "co",
     "downloader",
-    "jhipster",
     "schema"
   ],
   "dependencies": {
     "co": "4.6.x",
     "co-fs": "*",
-    "immutable": "3.x",
     "postgres-gen": "0.x",
     "postgres-gen-dao": "0.x",
     "request": "2.x",
-    "pg": "4.x"
+    "thunkify-wrap": "1.x",
+    "rimraf": "2.4.x",
+    "mkdirp": "*"
   },
   "devDependencies": {
     "fly": "0.x",
@@ -39,7 +42,10 @@
     "tape": "4.2.x",
     "tape-catch": "1.0.x"
   },
+  "peerDependencies": {
+    "pg": "4.x"
+  },
   "engines": {
-    "node": "> 0.11"
+    "node": ">= 4.0"
   }
 }
