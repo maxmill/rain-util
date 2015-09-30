@@ -3,8 +3,8 @@
  * */
 
 const scripts = {
-    path: ['lib/**/*.js','!lib/**/*.esnext.js'],
-    esnext: 'lib/**/*.esnext.js'
+    path: ['lib/**/*.js','!lib/**/*.esnode.js'],
+    esnext: 'lib/**/*.esnode.js'
 };
 
 export default function* () {
