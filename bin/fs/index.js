@@ -1,9 +1,11 @@
-const fs = require('co-fs');
-const rimraf = require('rimraf');
-const genify = require('thunkify-wrap').genify;
-const objectify = require('./objectify');
-const upsert  = require('./upsert.esnode');
-const gather = require('./gather.esnode');
+'use strict';
+
+var fs = require('co-fs');
+var rimraf = require('rimraf');
+var genify = require('thunkify-wrap').genify;
+var objectify = require('./objectify');
+var upsert = require('./upsert.esnode');
+var gather = require('./gather.esnode');
 
 /**
  *  extend co-fs in order to have the following by default (as generators)
