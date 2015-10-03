@@ -41,8 +41,11 @@ if($postgres) {
     yield $postgres.dao.delete('published > 1967'); // delete by query, returns count
   });
 
-  var dbData = $postgres.schema();
 }
+```
+
+```
+util.genify - convert regular functions into generator functions
 ```
 
 ### file utilities
@@ -50,6 +53,7 @@ extends co-fs - all core node fs methods available as generators
 ```
 $util.fs.download   - (string or array) downloads url(s) to file(s)
 $util.fs.upsert     - (string) creates dir if non-existent (uses mkdirp)
+$util.fs.gather     - [file or path) read file or directory
 $util.fs.rimraf     - (string) yieldable rm -rf
 $util.fs.objectify  - (string) converts directory and contents into node module
 

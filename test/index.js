@@ -11,6 +11,9 @@ const $fs = $util.fs;
 var testApi = {
     gmaps: new $util.http('https://maps.googleapis.com/', {'x-hi-there': 'hello'})
 };
+var conn = {host: 'localhost', db: 'intacsaas_development', user: 'postgres', password: 'postgres'};
+var $postgres = new $util.postgres(conn);
+
 
 test('database schema', function (t) {
    // does't run if db not found
@@ -18,12 +21,13 @@ test('database schema', function (t) {
    var $postgres = new $util.postgres(conn);
 
    co(function *() {
-       var schema = yield $postgres.schema();
+       var schema = (yield $postgres.db.query('SELECT 1')).rows;
+       console.log(schema)
        Object.keys(schema).length > 0 ? t.pass('schema has properties') : t.fail('missing schema');
    });
    t.end();
 });
-
+//
 test('HTTP GET', function (t) {
     co(function *() {
         var response = yield testApi.gmaps.get('maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA');
@@ -44,7 +48,7 @@ test('upsert recusively', function (t) {
     });
     t.end();
 });
-
+//
 //
 //test('file download', function (t) {
 //    co(function *() {
