@@ -1,7 +1,7 @@
 const path = require('path');
 const genify = require('thunkify-wrap').genify; // converts normal functions into generator functions
 const mkdirp = genify(require('mkdirp')); // https://github.com/substack/node-mkdirp
-var exists = genify(require('fs').exists);
+const exists = genify(require('fs').exists);
 
 // creates dir only if it doesn't exist
 module.exports = function*(dir) {

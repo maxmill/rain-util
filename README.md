@@ -1,9 +1,9 @@
 # rain-util #
 
-node v4 utilities
+Simplistic generator based toolkit for consuming apis, accessing postgres, and managing filesystem
 
 ```
-npm install
+npm i rain-util
 var $util = require('rain-util');
 ```
 
@@ -11,6 +11,11 @@ var $util = require('rain-util');
 //extends request.js additional properties may be passed as params  (httpSignature, multipart, headers)
 ```
 var api = new $util.http('https://maps.googleapis.com/');
+var api2 = new $util.http('https://my.api.com/',
+  { 'x-default-header':'its value'},
+  {httpSignature:{keyId:'rsa-key-1',algorithm='rsa-sha256',signature:'Base64(RSA-SHA256(signing string))'}
+);
+
 var req = new $util.http();
 
 var apiResponse = yield mapsApi.get('maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA');
@@ -45,16 +50,25 @@ if($postgres) {
 ```
 
 ```
-util.genify - convert regular functions into generator functions
+util.genify - (function) convert regular functions into generator functions
 ```
 
 ### file utilities
 extends co-fs - all core node fs methods available as generators
 ```
-$util.fs.download   - (string or array) downloads url(s) to file(s)
-$util.fs.upsert     - (string) creates dir if non-existent (uses mkdirp)
-$util.fs.gather     - [file or path) read file or directory
-$util.fs.rimraf     - (string) yieldable rm -rf
-$util.fs.objectify  - (string) converts directory and contents into node module
-
+$util.fs.download   - (file or file array) downloads url(s) to file(s)
+$util.fs.upsert     - (path) creates dir if non-existent (uses mkdirp)
+$util.fs.fetch     - (file or path) read file or directory contents
+$util.fs.rimraf     - (path) yieldable rm -rf
+$util.fs.objectify          - (path) converts directory and contents into node module
+$util.fs.json.(read|write)  - (file, obj, options)
 ```
+
+### credits
+- https://github.com/bucaran/fly
+- https://github.com/evs-chris/node-postgres-gen
+- https://github.com/request/request
+- https://github.com/jprichardson/node-jsonfile
+- https://github.com/substack/node-mkdirp
+- https://github.com/tj/co
+- https://github.com/substack/tape

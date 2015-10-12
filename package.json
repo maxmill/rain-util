@@ -1,8 +1,8 @@
 {
   "name": "rain-util",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "author": "Max Millien",
-  "description": "node v4 es6 utilities",
+  "description": "Generator based swiss knife for consuming apis, accessing postgres, and managing filesystem",
   "repository": {
     "type": "git",
     "url": "https://www.github.com/maxmill/rain-util.git"
@@ -12,40 +12,44 @@
   "scripts": {
     "clean": "npm cache clean && rm -rf node_modules bin data",
     "build": "fly build",
-    "prestart": "fly",
     "test": "npm build && tape ./test"
   },
   "keywords": [
     "koa",
     "postgres",
+    "api",
     "http",
     "fs",
+    "json",
     "mkdirp",
     "utils",
+    "requests",
     "co",
     "downloader",
-    "schema"
+    "generators"
   ],
   "dependencies": {
-    "co": "4.6.x",
+    "co": "4.x",
     "co-fs": "*",
+    "jsonfile": "2.x",
+    "mkdirp": "*",
     "postgres-gen": "0.x",
     "postgres-gen-dao": "0.x",
     "request": "2.x",
-    "thunkify-wrap": "1.x",
     "rimraf": "2.4.x",
-    "mkdirp": "*"
+    "thunkify-wrap": "1.x"
   },
   "devDependencies": {
-    "fly": "0.x",
+    "fly": "*",
     "fly-babel": "0.x",
-    "tape": "4.2.x",
+    "tape": "4.x",
     "tape-catch": "1.0.x"
   },
   "peerDependencies": {
     "pg": "4.x"
   },
   "engines": {
-    "node": ">= 4.0"
+    "iojs": ">= 1.0.0",
+    "node": ">= 0.12.0"
   }
 }

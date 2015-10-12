@@ -3,6 +3,7 @@
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _request = require('request');
+var _methods = ['get', 'post', 'put', 'patch', 'head', 'del'];
 
 // wrap request library as thunk-returning functions for co/koa use
 function request(uri, options) {
@@ -14,7 +15,7 @@ function request(uri, options) {
 }
 // copy request lib's properties
 Object.keys(_request).forEach(function (attr) {
-    request[attr] = ['get', 'post', 'put', 'patch', 'head', 'del'].indexOf(attr) > -1 ? (function (attr) {
+    request[attr] = _methods.indexOf(attr) > -1 ? (function (attr) {
         return function (uri, options) {
             return function (callback) {
                 _request[attr](uri, options, function (error, response, body) {
@@ -58,34 +59,20 @@ module.exports = function () {
         return apiRequest(requestOptions);
     };
 
-    // expose api interface
-    return {
-        get: function get(url, headers) {
-            return call('GET', url, headers);
-        },
-
-        del: function del(url, headers) {
-            return call('DELETE', url, headers);
-        },
-
-        post: function post(url, body, headers) {
-            return call('POST', url, body, headers);
-        },
-
-        patch: function patch(url, body, headers) {
-            return call('PATCH', url, body, headers);
-        },
-
-        put: function put(url, body, headers) {
-            return call('PUT', url, body, headers);
-        },
-
-        options: function options(url, body, headers) {
-            return call('OPTIONS', url, body, headers);
-        },
-
-        head: function head(url, headers) {
-            return call('HEAD', url, headers);
+    var out = {};
+    _methods.forEach(function (m) {
+        if (m.charAt(0) !== 'p') {
+            (function () {
+                var httpMethod = m === 'del' ? 'DELETE' : m.toUpperCase();
+                Object.defineProperty(out, m, function (url, headers) {
+                    return call(httpMethod, url, headers);
+                });
+            })();
+        } else {
+            Object.defineProperty(out, m, function (url, body, headers) {
+                return call(m.toUpperCase(), url, body, headers);
+            });
         }
-    };
+    });
+    return out;
 };
