@@ -5,6 +5,7 @@ var _fs = require('./fs');
 var _postgres = require('./postgres');
 var genify = require('thunkify-wrap').genify; // converts normal functions into generator functions
 
+//TODO: change pg
 // expose as one util
 module.exports = {
     http: _http,

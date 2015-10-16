@@ -8,7 +8,7 @@ var $util = require('rain-util');
 ```
 
 ### http requests ###
-//extends request.js additional properties may be passed as params  (httpSignature, multipart, headers)
+extends request.js additional properties may be passed as params  (httpSignature, multipart, headers)
 ```
 var api = new $util.http('https://maps.googleapis.com/');
 var api2 = new $util.http('https://my.api.com/',
@@ -21,6 +21,8 @@ var req = new $util.http();
 var apiResponse = yield mapsApi.get('maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA');
 console.log('apiResponse',apiResponse);
 req.get('full url');
+
+var api2Response = yield api2.post('another url', requestBody);
 ```
 
 ### postgres ###
@@ -65,7 +67,6 @@ $util.fs.json.(read|write)  - (file, obj, options)
 ```
 
 ### credits
-- https://github.com/bucaran/fly
 - https://github.com/evs-chris/node-postgres-gen
 - https://github.com/request/request
 - https://github.com/jprichardson/node-jsonfile

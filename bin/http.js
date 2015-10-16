@@ -64,14 +64,14 @@ module.exports = function () {
         if (m.charAt(0) !== 'p') {
             (function () {
                 var httpMethod = m === 'del' ? 'DELETE' : m.toUpperCase();
-                Object.defineProperty(out, m, function (url, headers) {
+                out[m] = function (url, headers) {
                     return call(httpMethod, url, headers);
-                });
+                };
             })();
         } else {
-            Object.defineProperty(out, m, function (url, body, headers) {
+            out[m] = function (url, body, headers) {
                 return call(m.toUpperCase(), url, body, headers);
-            });
+            };
         }
     });
     return out;
