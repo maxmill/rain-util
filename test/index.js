@@ -5,14 +5,66 @@ const $util = require('../bin');
 const fs = require('fs');
 const $fs = $util.fs;
 const testApi = {
-    gmaps: new $util.http('https://maps.googleapis.com/', {'x-hi-there': 'hello'})
+    gmaps: new $util.http('https://maps.googleapis.com/', {'x-hi-there': 'hello'}),
+    endPoint: new $util.http('http://jsonplaceholder.typicode.com/')
 };
 
 
-test('HTTP GET', function (t) {
+const assertResponse = function (t, response) {
+    return response.body
+        ? t.pass('HTTP ' + response.request.method + ' found response body' + ' (' + response.statusCode + ')')
+        : t.fail('HTTP ' + response.request.method + ' missing response body' + ' (' + response.statusCode + ')');
+};
+
+test('HTTP GET ', function (t) {
     co(function *() {
         var response = yield testApi.gmaps.get('maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA');
-        response.body ? t.pass('HTTP GET found response body') : t.fail('missing response body');
+        assertResponse(t,response);
+    });
+    t.end();
+});
+
+
+test('HTTP GET 2x', function (t) {
+    co(function *() {
+        var response = yield testApi.gmaps.get('maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA');
+        var response2 = yield testApi.endPoint.get('posts/1');
+        (response.body && response2.body)
+            ? t.pass('HTTP GET 2x found response bodies' + ' (' + response.statusCode + ', ' + response2.statusCode + ')')
+            : t.fail('HTTP GET 2x missing response bodies' + ' (' + response.statusCode + ', ' + response2.statusCode + ')');
+    });
+    t.end();
+});
+
+
+test('HTTP POST', function (t) {
+    co(function *() {
+        var response = yield testApi.endPoint.post('posts/');
+        assertResponse(t,response);
+    });
+    t.end();
+});
+
+test('HTTP PUT', function (t) {
+    co(function *() {
+        var response = yield testApi.endPoint.put('posts/1', {
+            title: 'test put'
+        });
+        response.body
+            ? t.pass('HTTP PUT found response body' + ' (' + response.statusCode + ')')
+            : t.fail('HTTP PUT missing response body' + ' (' + response.statusCode + ')');
+    });
+    t.end();
+});
+
+test('HTTP PATCH', function (t) {
+    co(function *() {
+        var response = yield testApi.endPoint.patch('posts/1', {
+            title: 'test patch'
+        });
+        response.body
+            ? t.pass('HTTP PATCH found response body' + ' (' + response.statusCode + ')')
+            : t.fail('HTTP PATCH missing response body' + ' (' + response.statusCode + ')');
     });
     t.end();
 });
@@ -21,9 +73,10 @@ test('HTTP GET', function (t) {
 test('upsert recusively', function (t) {
     co(function *() {
         (yield $fs.rimraf(path.resolve('./data')));
-        console.log('creating directory: ' + (yield $fs.upsert(path.resolve('./data/1/2/3'))));
 
-        (yield $fs.exists(path.resolve('./data/1')))
+        console.log('creating directory: ' + (yield $fs.upsert(['./data/1/2/3', './data/3/2/1'])));
+
+        (yield $fs.exists('./data/1'))
             ? t.pass('recusively created')
             : t.fail('not created properly');
     });
@@ -36,29 +89,7 @@ test('database query', function (t) {
     const $postgres = new $util.postgres(conn);
     co(function *() {
         var schema = (yield $postgres.db.query('SELECT 1')).rows;
-        console.log(schema);
-        Object.keys(schema).length > 0 ? t.pass('schema has properties') : t.fail('missing schema');
+        schema && Object.keys(schema).length > 0 ? t.pass('schema has properties') : t.fail('missing schema');
     });
     t.end();
 });
-
-//
-//
-//test('file download', function (t) {
-//    co(function *() {
-//        console.log('start')
-//        var ss = yield $fs.rimraf(path.resolve('./data'));
-//        var file = {
-//            url: 'https://joyeur.files.wordpress.com/2011/07/nodejs.png',
-//            src: (path.resolve('./data') + '/img.png')
-//
-//        };
-//        yield $fs.upsert(path.resolve('./data'));
-//        //console.info('found directory: ' + ());
-//
-//        var tt = yield $fs.download(file);
-//
-//        t.pass('file is downloaded');
-//    });
-//    t.end();
-//});

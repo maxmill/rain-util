@@ -1,6 +1,6 @@
 {
   "name": "rain-util",
-  "version": "0.2.1",
+  "version": "0.2.5",
   "author": "Max Millien",
   "description": "Generator based swiss knife for consuming apis, accessing postgres, and managing filesystem",
   "repository": {
@@ -29,6 +29,7 @@
     "generators"
   ],
   "dependencies": {
+    "array-generators": "1.x",
     "co": "4.x",
     "co-fs": "*",
     "jsonfile": "2.x",
