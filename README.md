@@ -1,5 +1,7 @@
 # rain-util #
 
+[![Build Status](https://travis-ci.org/maxmill/rain-util.svg)](https://travis-ci.org/maxmill/rain-util)
+
 Simplistic generator based toolkit for consuming apis, accessing postgres, and managing filesystem
 
 ```
