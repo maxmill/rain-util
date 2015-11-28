@@ -1,13 +1,13 @@
 'use strict';
 
-var fs = require('co-fs');
-var rimraf = require('rimraf');
-var genify = require('thunkify-wrap').genify;
-var objectify = require('./objectify');
-var download = require('./download');
-var upsert = require('./upsert.esnode');
-var fetch = require('./fetch.esnode');
-var jsonFile = require('jsonfile');
+const fs = require('co-fs');
+const rimraf = require('rimraf');
+const genify = require('thunkify-wrap').genify;
+const objectify = require('./objectify');
+const download = require('./download');
+const upsert = require('./upsert');
+const fetch = require('./fetch');
+const jsonFile = require('jsonfile');
 
 /**
  *  extend co-fs in order to have the following by default (as generators)

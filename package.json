@@ -1,6 +1,6 @@
 {
   "name": "rain-util",
-  "version": "0.2.5",
+  "version": "0.3.0",
   "author": "Max Millien",
   "description": "Generator based swiss knife for consuming apis, accessing postgres, and managing filesystem",
   "repository": {
@@ -11,8 +11,8 @@
   "main": "./bin",
   "scripts": {
     "clean": "npm cache clean && rm -rf node_modules bin data",
-    "build": "fly build",
-    "test": "npm build && tape ./test"
+    "build": "babel lib -d bin",
+    "test": "npm run build && tape ./test"
   },
   "keywords": [
     "koa",
@@ -26,7 +26,8 @@
     "requests",
     "co",
     "downloader",
-    "generators"
+    "generators",
+    "bundle"
   ],
   "dependencies": {
     "array-generators": "1.x",
@@ -34,6 +35,7 @@
     "co-fs": "*",
     "jsonfile": "2.x",
     "mkdirp": "*",
+    "pg": "4.4.x",
     "postgres-gen": "0.x",
     "postgres-gen-dao": "0.x",
     "request": "2.x",
@@ -41,16 +43,24 @@
     "thunkify-wrap": "1.x"
   },
   "devDependencies": {
-    "fly": "*",
-    "fly-babel": "0.x",
+    "babel": "*",
+    "babel-cli": "*",
+    "babel-preset-es2015-node5": "*",
+    "babel-preset-stage-3": "*",
     "tape": "4.x",
-    "tape-catch": "1.0.x"
-  },
-  "peerDependencies": {
-    "pg": "4.x"
+    "tape-catch": "1.x"
   },
   "engines": {
     "iojs": ">= 1.0.0",
     "node": ">= 0.12.0"
+  },
+  "babel": {
+    "presets": [
+      "es2015-node5",
+      "stage-3"
+    ],
+    "plugins": [
+      "transform-object-rest-spread"
+    ]
   }
 }

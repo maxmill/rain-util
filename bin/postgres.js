@@ -1,7 +1,7 @@
 'use strict';
 
-var pg = require('postgres-gen');
-var dao = require('postgres-gen-dao');
+const pg = require('postgres-gen');
+const dao = require('postgres-gen-dao');
 
 function Database(connection) {
   /**
@@ -22,7 +22,7 @@ function Database(connection) {
   this.tables = {};
 }
 
-Database.prototype.table = function (name) {
+Database.prototype.table = name => {
   undefined.tables[name] = dao({ db: undefined.db, table: name }); // load table data access object
 };
 

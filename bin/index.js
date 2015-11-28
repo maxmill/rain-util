@@ -1,15 +1,15 @@
 'use strict';
 
-var _http = require('./http');
-var _fs = require('./fs');
-var _postgres = require('./postgres');
-var genify = require('thunkify-wrap').genify; // converts normal functions into generator functions
-
-//TODO: change pg
+const http = require('./http');
+const fs = require('./fs');
+const postgres = require('./postgres');
+const genify = require('thunkify-wrap').genify; // converts normal functions into generator functions
+const array = require('array-generators');
 // expose as one util
 module.exports = {
-    http: _http,
-    fs: _fs,
-    postgres: _postgres,
-    genify: genify
+    http: http,
+    fs: fs,
+    postgres: postgres,
+    genify: genify,
+    array: array
 };

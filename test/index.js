@@ -50,9 +50,7 @@ test('HTTP PUT', function (t) {
         var response = yield testApi.endPoint.put('posts/1', {
             title: 'test put'
         });
-        response.body
-            ? t.pass('HTTP PUT found response body' + ' (' + response.statusCode + ')')
-            : t.fail('HTTP PUT missing response body' + ' (' + response.statusCode + ')');
+        assertResponse(t,response);
     });
     t.end();
 });
@@ -62,9 +60,7 @@ test('HTTP PATCH', function (t) {
         var response = yield testApi.endPoint.patch('posts/1', {
             title: 'test patch'
         });
-        response.body
-            ? t.pass('HTTP PATCH found response body' + ' (' + response.statusCode + ')')
-            : t.fail('HTTP PATCH missing response body' + ' (' + response.statusCode + ')');
+        assertResponse(t,response);
     });
     t.end();
 });

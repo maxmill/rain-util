@@ -1,27 +1,23 @@
 'use strict';
 
-var _request = require('request');
-var fs = require('fs');
+const _request = require('request');
+const fs = require('fs');
 
-var download = function download(uri, filename, callback) {
-    return _request.head(uri, function (err, res, body) {
-        if (err) {
-            callback(err, filename);
-        } else {
-            var stream = _request(uri);
-            stream.pipe(fs.createWriteStream(filename).on('error', function (error) {
-                callback(error, filename);
-                stream.read();
-            })).on('close', function () {
-                return callback(null, filename);
-            });
-        }
-    });
-};
+var download = (uri, filename, callback) => _request.head(uri, (err, res, body) => {
+    if (err) {
+        callback(err, filename);
+    } else {
+        var stream = _request(uri);
+        stream.pipe(fs.createWriteStream(filename).on('error', error => {
+            callback(error, filename);
+            stream.read();
+        })).on('close', () => callback(null, filename));
+    }
+});
 
-var handle = function handle(file) {
+var handle = file => {
     if (file.src && file.url) {
-        download(file.url, file.src, function (error, filename) {
+        download(file.url, file.src, (error, filename) => {
             return error ? filename + ':\n\t' + error.message : true;
         });
     } else {
@@ -29,7 +25,7 @@ var handle = function handle(file) {
     }
 };
 
-module.exports = function (options) {
+module.exports = options => {
     if (options && typeof options === 'object') {
         return Array.isArray(options) ? options.map(handle) : handle(options);
     } else {

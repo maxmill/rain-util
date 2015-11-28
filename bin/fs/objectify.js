@@ -1,7 +1,7 @@
 'use strict';
 
-var fs = require('co-fs');
-var path = require('path');
+const fs = require('co-fs');
+const path = require('path');
 
 // expose object module from directory
 module.exports = function (dir, exclude, scope) {
@@ -15,7 +15,7 @@ module.exports = function (dir, exclude, scope) {
 
     dir = path.resolve(scope ? scope + '/' + dir : dir);
 
-    return fs.readdirSync(path.resolve(dir)).reduce(function (name) {
+    return fs.readdirSync(path.resolve(dir)).reduce(name => {
         _module = _module || {};
 
         if (name[0] === '.' || whiteList.indexOf(name) > -1) {

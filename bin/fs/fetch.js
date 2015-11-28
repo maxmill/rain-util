@@ -1,3 +1,5 @@
+'use strict';
+
 const fs = require('co-fs');
 const path = require('path');
 

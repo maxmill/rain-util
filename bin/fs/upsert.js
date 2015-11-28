@@ -1,3 +1,5 @@
+'use strict';
+
 const path = require('path');
 const genify = require('thunkify-wrap').genify; // converts normal functions into generator functions
 const mkdirp = genify(require('mkdirp')); // https://github.com/substack/node-mkdirp
@@ -9,12 +11,11 @@ function* createIfMissing(d) {
 }
 
 // creates dir only if it doesn't exist
-module.exports = function*(dir) {
+module.exports = function* (dir) {
     if (typeof dir === 'string') {
         yield createIfMissing(dir);
     } else if (Array.isArray(dir)) {
         yield _forEach(dir, createIfMissing);
-
     }
     return path.resolve(dir);
 };
