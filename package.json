@@ -1,6 +1,6 @@
 {
   "name": "rain-util",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "author": "Max Millien",
   "description": "Generator based swiss knife for consuming apis, accessing postgres, and managing filesystem",
   "repository": {
@@ -27,7 +27,8 @@
     "co",
     "downloader",
     "generators",
-    "bundle"
+    "bundle",
+    "toolkit"
   ],
   "dependencies": {
     "array-generators": "1.x",
@@ -52,7 +53,6 @@
     "tape-catch": "1.x"
   },
   "engines": {
-    "iojs": ">= 1.0.0",
     "node": ">= 0.12.0"
   },
   "babel": {
