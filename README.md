@@ -71,6 +71,8 @@ $util.fs.objectify          - (path) converts directory and contents into node m
 $util.fs.json.(read|write)  - (file, obj, options)
 ```
 
+requires node 4.2 or higher
+
 ### credits ###
 
 - https://github.com/request/request
