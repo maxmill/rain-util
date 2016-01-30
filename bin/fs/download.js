@@ -2,8 +2,9 @@
 
 const _request = require('request');
 const fs = require('fs');
+const genify = require('thunkify-wrap').genify;
 
-var download = (uri, filename, callback) => _request.head(uri, (err, res, body) => {
+var _download = (uri, filename, callback) => _request.head(uri, (err, res, body) => {
     if (err) {
         callback(err, filename);
     } else {
@@ -11,24 +12,27 @@ var download = (uri, filename, callback) => _request.head(uri, (err, res, body) 
         stream.pipe(fs.createWriteStream(filename).on('error', error => {
             callback(error, filename);
             stream.read();
-        })).on('close', () => callback(null, filename));
+        })).on('close', () => callback(null, filename)).on('finish', () => callback(null, filename));
     }
 });
 
-var handle = file => {
-    if (file.src && file.url) {
-        download(file.url, file.src, (error, filename) => {
-            return error ? filename + ':\n\t' + error.message : true;
-        });
-    } else {
-        return 'file missing name/url';
-    }
-};
+var download = (options, callback) => {
+    var handle = file => {
+        if (file.src && file.url) {
+            var cb = typeof callback === 'function' ? callback : (error, filename) => {
+                return error ? filename + ':\n\t' + error.message : true;
+            };
+            _download(file.url, file.src, cb);
+        } else {
+            return 'file missing name/url';
+        }
+    };
 
-module.exports = options => {
     if (options && typeof options === 'object') {
         return Array.isArray(options) ? options.map(handle) : handle(options);
     } else {
         console.error('invalid type -  use object or array ');
     }
 };
+
+module.exports = genify(download);

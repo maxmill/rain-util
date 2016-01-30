@@ -101,6 +101,23 @@ test('JSON IO', function (t) {
     t.end();
 });
 
+
+test('file download', function (t) {
+    co(function *() {
+
+        var file = {
+            url: 'https://joyeur.files.wordpress.com/2011/07/nodejs.png',
+            src: (path.resolve('./data') + '/img.png')
+
+        };
+        console.info('create directory: ' + (yield $fs.upsert(path.resolve('./data'))));
+        console.info('download file: ' + (yield* $fs.download(file)));
+
+        (yield $fs.exists(file.src)) ? t.pass('file is downloaded') : t.fail('file not downloaded');
+    });
+    t.end();
+});
+
 // need postgres installed for this test to pass
 test('database query', function (t) {
     const conn = {host: 'localhost', db: 'rain_dev', user: 'postgres', password: 'postgres'};

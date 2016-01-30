@@ -1,7 +1,6 @@
 'use strict';
 
 const fs = require('co-fs');
-const path = require('path');
 
 //read file or directory contents
 module.exports = function* (p) {
