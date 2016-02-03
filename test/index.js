@@ -118,7 +118,7 @@ test('file download', coTape(function* (t) {
 
 // need postgres installed for this test to pass
 test('database query', coTape(function* (t) {
-    var conn = {host: 'localhost', db: 'rain_dev', user: 'postgres', password: 'postgres'};
+    var conn = {host: 'localhost', db: 'rain_dev', user: 'postgres'};
     var $postgres = new $util.postgres(conn);
 
     var schema = (yield $postgres.db.query('SELECT 1')).rows;
