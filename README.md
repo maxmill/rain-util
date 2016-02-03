@@ -1,6 +1,9 @@
 # rain-util #
 
-[![Build Status](https://travis-ci.org/maxmill/rain-util.svg)](https://travis-ci.org/maxmill/rain-util)
+[![Build Status](https://travis-ci.org/maxmill/rain-util.svg?style=flat-square)](https://travis-ci.org/maxmill/rain-util)
+[![npm](https://img.shields.io/npm/v/rain-util.svg?style=flat-square)]()
+[![npm](https://img.shields.io/npm/dt/rain-util.svg)]()
+
 
 Simplistic generator based toolkit for consuming apis, accessing postgres, and managing filesystem
 
