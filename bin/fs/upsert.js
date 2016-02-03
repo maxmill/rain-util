@@ -14,8 +14,9 @@ function* createIfMissing(d) {
 module.exports = function* (dir) {
     if (typeof dir === 'string') {
         yield createIfMissing(dir);
+        return path.resolve(dir);
     } else if (Array.isArray(dir)) {
         yield _forEach(dir, createIfMissing);
+        return dir.map(d => path.resolve(d));
     }
-    return path.resolve(dir);
 };
