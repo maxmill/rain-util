@@ -1,6 +1,6 @@
 {
   "name": "rain-util",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "author": "Max Millien",
   "description": "Generator based swiss knife for consuming apis, accessing postgres, and managing filesystem",
   "repository": {
@@ -12,7 +12,7 @@
   "scripts": {
     "clean": "npm cache clean && rm -rf node_modules bin data",
     "build": "babel lib -d bin",
-    "test": "npm run build && tape ./test"
+    "test": "tape ./test"
   },
   "keywords": [
     "koa",
@@ -41,6 +41,7 @@
     "pg": "4.4.x",
     "postgres-gen": "0.x",
     "postgres-gen-dao": "0.x",
+    "rain-util-http": "*",
     "request": "2.x",
     "rimraf": "2.4.x",
     "thunkify-wrap": "1.x"
@@ -52,7 +53,8 @@
     "babel-preset-es2015-node5": "*",
     "babel-preset-stage-3": "*",
     "tape": "4.x",
-    "tape-catch": "1.x"
+    "tape-catch": "1.x",
+    "co-http-test": "*"
   },
   "engines": {
     "node": ">= 4.2.0"

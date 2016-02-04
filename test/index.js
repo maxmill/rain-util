@@ -5,53 +5,10 @@ const $util = require('../bin');
 const fs = require('fs');
 const $fs = $util.fs;
 const coTape = require('co-tape');
+const httpTest =require('co-http-test');
 const testApi = {
     gmaps: new $util.http('https://maps.googleapis.com/', {'x-hi-there': 'hello'}),
     endPoint: new $util.http('http://jsonplaceholder.typicode.com/')
-};
-
-var httpTest = (description, req, expectStatus, expectResult)=> {
-
-
-    var assertResponse = function (response) {
-
-        var validStatus = (expectStatus && response.statusCode) ? (expectStatus == response.statusCode) : (response.statusCode < 400);
-        var validResponse = (expectResult && response.body) ? (expectResult === response.body) : (response.body !== undefined);
-        var success = validStatus && validResponse;
-        var out = '';
-
-        if (success === true) {
-            out += `PASS (${response.statusCode})\n\t`;
-        } else {
-            out += `FAIL \n\t`;
-            if (!validStatus) {
-                out += ` - expected status: ${expectStatus}, got ${response.statusCode}`;
-            }
-            if (!validResponse) {
-                out += ` - expected result: ${JSON.stringify(expectResult)}, got ${JSON.stringify(response.body)}`;
-            }
-        }
-        return {
-            success: success,
-            message: out
-        }
-    };
-
-
-    test(description, coTape(function* (t) {
-            description = description.split('|');
-            var _desc = description[1].split(',');
-            var response = yield req;
-            var testResult = Array.isArray(response) ? response.map((r)=>assertResponse(r)) : assertResponse(response)
-            testResult = Array.isArray(testResult) ? testResult : [testResult];
-
-            var messages = `${testResult.map((x, i)=>`\n[${_desc[i]} - ${x.message}]\n`).join(',\n')}`;
-            var passed = testResult.map((x)=>x.success).reduce((prev, curr)=>(prev || true) && curr);
-
-            t[passed === true ? 'pass' : 'fail'](messages);
-            t.end();
-        }
-    ));
 };
 
 httpTest('HTTP | GET , GET multiple', [
