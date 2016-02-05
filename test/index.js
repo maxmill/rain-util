@@ -81,7 +81,7 @@ test('database query', coTape(function* (t) {
     var schema = (yield $postgres.db.query('SELECT 1')).rows;
     var passed = schema && Object.keys(schema).length > 0;
 
-    t[passed === true ? 'pass' : 'fail']('file download');
+    t[passed === true ? 'pass' : 'fail']('database query');
 
     t.end();
 }));

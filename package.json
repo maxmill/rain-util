@@ -1,6 +1,6 @@
 {
   "name": "rain-util",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "author": "Max Millien",
   "description": "Generator based swiss knife for consuming apis, accessing postgres, and managing filesystem",
   "repository": {
@@ -42,6 +42,7 @@
     "postgres-gen": "0.x",
     "postgres-gen-dao": "0.x",
     "rain-util-http": "*",
+    "rain-util-postgres": "^0.3.8",
     "request": "2.x",
     "rimraf": "2.4.x",
     "thunkify-wrap": "1.x"
