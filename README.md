@@ -31,7 +31,7 @@ var api2Response = yield api2.post('another url', requestBody);
 ```
 
 ### postgres ###
-queries, data access objects, transactions, schema lookup
+queries, data access objects, transactions
 ```
 var conn = { host: 'localhost', db: 'postgres', user: 'postgres', password: 'postgres' };
 var $postgres =  new $util.postgres(conn); // connection string also acceptable
@@ -60,7 +60,7 @@ if($postgres) {
 ### generator utilities ###
 ```
 util.genify - (function) convert regular functions into generator functions
-util.array.(forEach|map|filter|forEachSeries)
+yield util.array.(forEach|map|filter|forEachSeries)
 ```
 
 ### file utilities ###
@@ -70,7 +70,6 @@ $util.fs.download   - (file or file array) downloads url(s) to file(s)
 $util.fs.upsert     - (dir or dir array) creates dir if non-existent (uses mkdirp)
 $util.fs.fetch     - (file or dir) read file or directory contents
 $util.fs.rimraf     - (path) yieldable rm -rf
-$util.fs.objectify          - (path) converts directory and contents into node module
 $util.fs.json.(read|write)  - (file, obj, options)
 ```
 
@@ -83,5 +82,3 @@ requires node 4.2 or higher
 - https://github.com/substack/node-mkdirp
 - https://github.com/evs-chris/node-postgres-gen
 - https://www.npmjs.com/package/array-generators
-- https://github.com/tj/co
-- https://github.com/substack/tape
