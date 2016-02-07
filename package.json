@@ -32,6 +32,7 @@
     "toolkit"
   ],
   "dependencies": {
+    "array-generators":"*",
     "rain-util-download": "*",
     "rain-util-fs": "*",
     "rain-util-http": "*",
