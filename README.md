@@ -31,29 +31,46 @@ var api2Response = yield api2.post('another url', requestBody);
 ```
 
 ### postgres ###
-queries, data access objects, transactions
+queries, data access objects, transactions, schema data
 ```
 var conn = { host: 'localhost', db: 'postgres', user: 'postgres', password: 'postgres' };
 var $postgres =  new $util.postgres(conn); // connection string also acceptable
 
 if($postgres) {
   postgres.db.query('SELECT test');
+// create a test table
+        const tableName = 'testers';
+        const testTable = `DROP TABLE IF EXISTS ${tableName}; CREATE TABLE ${tableName}(id CHARACTER VARYING(40))WITH(OIDS=FALSE);ALTER TABLE ${tableName} OWNER TO postgres;`;
+        yield $postgres.db.query(testTable);
 
-  $postgres.table('books');
+// load created table into $postgres object
+        $postgres.table(tableName);
 
-  var b = { author: 'Johnny test', title: 'I Like Books'};
+// add a record
+        const recordId = '4a2b';
+        yield $postgres.tables[`${tableName}`].upsert({id: recordId});
+        
+// find created record using dao
+        const daoRecord = yield  $postgres.tables[`${tableName}`].findOne('id = ?', recordId);
+        
+// find created record using sql
+        const findRecordSQL = `SELECT * FROM ${tableName} WHERE id = '${recordId}'`;
+        const sqlRecord = (yield $postgres.db.query(findRecordSQL)).rows[0];
+        
+// add new record
+  $postgres.tables.books.upsert({id:'4324'})
 
-  $postgres.tables.books.upsert(b).then(function() {
-    console.log(b.id + ' - ' + b.createdAt + ' - ' + b.updatedAt); // values are loaded back :)
-  });
-
+//within transaction, find new record and then delete it
   $postgres.db.transaction(function*() {
-    var b = yield $postgres.tables.books.findOne('id = ?', 1);  // b is book with id 1
-    yield $postgres.dao.delete(b); // delete by model throws if more than one row is affected
-    yield $postgres.dao.delete('published > 1967'); // delete by query, returns count
+    var record = yield $postgres.tables[`${tableName}`].findOne('id = ?', '4324');  
+    yield $postgres.dao.delete(record); // delete by model throws if more than one row is affected
+    yield $postgres.dao.delete('id = 4324'); // delete by query, returns count
   });
-
 }
+
+
+// get schema information
+const schema = yield $postgres.schema();
 ```
 
 

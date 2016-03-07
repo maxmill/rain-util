@@ -1,6 +1,6 @@
 {
   "name": "rain-util",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "author": "Max Millien",
   "description": "Generator based swiss knife for consuming apis, accessing postgres, and managing filesystem",
   "repository": {
@@ -12,7 +12,8 @@
   "scripts": {
     "clean": "npm cache clean && rm -rf node_modules bin data",
     "build": "babel lib -d bin",
-    "test": "npm run build && faucet"
+    "postbuild":"npm test",
+    "test": "faucet"
   },
   "keywords": [
     "koa",
@@ -29,7 +30,8 @@
     "generators",
     "bundle",
     "convenience",
-    "toolkit"
+    "toolkit",
+    "schema"
   ],
   "dependencies": {
     "array-generators":"*",
@@ -45,7 +47,6 @@
     "babel-plugin-transform-object-rest-spread": "*",
     "babel-preset-es2015-node5": "*",
     "babel-preset-stage-3": "*",
-    "co-http-test": "*",
     "co-tape": "*",
     "faucet": "0.x",
     "tape": "4.x",
