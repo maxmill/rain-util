@@ -1,8 +1,8 @@
 sudo: false
 language: node_js
 node_js:
-  - 'stable'
-  - '4.2.1'
+  - '6'
+  - '4.4.4'
 before_install: npm install -g babel-cli
 install: npm install
 
