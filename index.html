@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>rain-util by maxmill</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">rain-util</h1>
+      <h2 class="project-tagline">Generator based swiss knife for consuming apis, accessing postgres, and managing filesystem</h2>
+      <a href="https://github.com/maxmill/rain-util" class="btn">View on GitHub</a>
+      <a href="https://github.com/maxmill/rain-util/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/maxmill/rain-util/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="rain-util" class="anchor" href="#rain-util" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>rain-util</h1>
+
+<p><a href="https://travis-ci.org/maxmill/rain-util"><img src="https://travis-ci.org/maxmill/rain-util.svg?style=flat-square" alt="Build Status"></a>
+<a href=""><img src="https://img.shields.io/npm/v/rain-util.svg?style=flat-square" alt="npm"></a>
+<a href=""><img src="https://img.shields.io/npm/dt/rain-util.svg" alt="npm"></a>
+<a href=""><img src="https://img.shields.io/npm/dm/rain-util.svg" alt="npm"></a></p>
+
+<p>generator based toolkit for consuming apis, accessing postgres, and managing filesystem</p>
+
+<pre><code>npm i rain-util
+const $util = require('rain-util');
+</code></pre>
+
+<h3>
+<a id="for-fast-prototyping-use-sub-packages-if-only-a-subset-is-needed" class="anchor" href="#for-fast-prototyping-use-sub-packages-if-only-a-subset-is-needed" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>for fast prototyping. use sub-packages if only a subset is needed</h3>
+
+<ul>
+<li><a href="https://github.com/maxmill/rain-util-http">https://github.com/maxmill/rain-util-http</a></li>
+<li><a href="https://github.com/maxmill/rain-util-download">https://github.com/maxmill/rain-util-download</a></li>
+<li><a href="https://github.com/maxmill/rain-util-fs">https://github.com/maxmill/rain-util-fs</a></li>
+<li><a href="https://github.com/maxmill/rain-util-postgres">https://github.com/maxmill/rain-util-postgres</a></li>
+</ul>
+
+<h3>
+<a id="http-requests" class="anchor" href="#http-requests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>http requests</h3>
+
+<p>extends request.js additional properties may be passed as params  (httpSignature, multipart, headers)</p>
+
+<pre><code>const api = new $util.http('https://maps.googleapis.com/');
+const api2 = new $util.http('https://my.api.com/',
+  { 'x-default-header':'its value'},
+  {httpSignature:{keyId:'rsa-key-1',algorithm='rsa-sha256',signature:'Base64(RSA-SHA256(signing string))'}
+);
+
+const req = new $util.http();
+
+const apiResponse = yield mapsApi.get('maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA');
+console.log('apiResponse',apiResponse);
+req.get('full url');
+
+const api2Response = yield api2.post('another url', requestBody);
+</code></pre>
+
+<h3>
+<a id="postgres" class="anchor" href="#postgres" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>postgres</h3>
+
+<p>queries, data access objects, transactions, schema data</p>
+
+<pre><code>const conn = { host: 'localhost', db: 'postgres', user: 'postgres', password: 'postgres' };
+const $postgres =  new $util.postgres(conn); // connection string also acceptable
+
+if($postgres) {
+  postgres.db.query('SELECT test');
+// create a test table
+        const tableName = 'testers';
+        const testTable = `DROP TABLE IF EXISTS ${tableName}; CREATE TABLE ${tableName}(id CHARACTER constYING(40))WITH(OIDS=FALSE);ALTER TABLE ${tableName} OWNER TO postgres;`;
+        yield $postgres.db.query(testTable);
+
+// load created table into $postgres object
+        $postgres.table(tableName);
+
+// add a record
+        const recordId = '4a2b';
+        yield $postgres.tables[`${tableName}`].upsert({id: recordId});
+
+// find created record using dao
+        const daoRecord = yield  $postgres.tables[`${tableName}`].findOne('id = ?', recordId);
+
+// find created record using sql
+        const findRecordSQL = `SELECT * FROM ${tableName} WHERE id = '${recordId}'`;
+        const sqlRecord = (yield $postgres.db.query(findRecordSQL)).rows[0];
+
+// add new record
+  $postgres.tables.books.upsert({id:'4324'})
+
+//within transaction, find new record and then delete it
+  $postgres.db.transaction(function*() {
+    let record = yield $postgres.tables[`${tableName}`].findOne('id = ?', '4324');  
+    yield $postgres.dao.delete(record); // delete by model throws if more than one row is affected
+    yield $postgres.dao.delete('id = 4324'); // delete by query, returns count
+  });
+}
+
+
+// get schema information
+const schema = yield $postgres.schema();
+</code></pre>
+
+<h3>
+<a id="generator-utilities" class="anchor" href="#generator-utilities" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>generator utilities</h3>
+
+<pre><code>util.genify - (function) convert regular functions into generator functions
+yield util.array.(forEach|map|filter|forEachSeries)
+</code></pre>
+
+<h3>
+<a id="file-utilities" class="anchor" href="#file-utilities" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>file utilities</h3>
+
+<p>extends co-fs - all core node fs methods available as generators</p>
+
+<pre><code>$util.fs.download   - (file or file array) downloads url(s) to file(s)
+$util.fs.upsert     - (dir or dir array) creates dir if non-existent (uses mkdirp)
+$util.fs.fetch     - (file or dir) read file or directory contents
+$util.fs.rimraf     - (path) yieldable rm -rf
+$util.fs.json.(read|write)  - (file, obj, options)
+</code></pre>
+
+<p>tested with LTS and latest node versions</p>
+
+<h3>
+<a id="credits" class="anchor" href="#credits" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>credits</h3>
+
+<ul>
+<li><a href="https://github.com/request/request">https://github.com/request/request</a></li>
+<li><a href="https://github.com/jprichardson/node-jsonfile">https://github.com/jprichardson/node-jsonfile</a></li>
+<li><a href="https://github.com/substack/node-mkdirp">https://github.com/substack/node-mkdirp</a></li>
+<li><a href="https://github.com/evs-chris/node-postgres-gen">https://github.com/evs-chris/node-postgres-gen</a></li>
+<li><a href="https://www.npmjs.com/package/array-generators">https://www.npmjs.com/package/array-generators</a></li>
+</ul>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/maxmill/rain-util">rain-util</a> is maintained by <a href="https://github.com/maxmill">maxmill</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
