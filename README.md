@@ -3,44 +3,52 @@
 [![Build Status](https://travis-ci.org/maxmill/rain-util.svg?style=flat-square)](https://travis-ci.org/maxmill/rain-util)
 [![npm](https://img.shields.io/npm/v/rain-util.svg?style=flat-square)]()
 [![npm](https://img.shields.io/npm/dt/rain-util.svg)]()
+[![npm](https://img.shields.io/npm/dm/rain-util.svg)]()
 
 
-Simplistic generator based toolkit for consuming apis, accessing postgres, and managing filesystem
+generator based toolkit for consuming apis, accessing postgres, and managing filesystem
 
 ```
 npm i rain-util
-var $util = require('rain-util');
+const $util = require('rain-util');
 ```
+
+### for fast prototyping. use sub-packages if only a subset is needed ###
+- https://github.com/maxmill/rain-util-http
+- https://github.com/maxmill/rain-util-download
+- https://github.com/maxmill/rain-util-fs
+- https://github.com/maxmill/rain-util-postgres
+
 
 ### http requests ###
 extends request.js additional properties may be passed as params  (httpSignature, multipart, headers)
 ```
-var api = new $util.http('https://maps.googleapis.com/');
-var api2 = new $util.http('https://my.api.com/',
+const api = new $util.http('https://maps.googleapis.com/');
+const api2 = new $util.http('https://my.api.com/',
   { 'x-default-header':'its value'},
   {httpSignature:{keyId:'rsa-key-1',algorithm='rsa-sha256',signature:'Base64(RSA-SHA256(signing string))'}
 );
 
-var req = new $util.http();
+const req = new $util.http();
 
-var apiResponse = yield mapsApi.get('maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA');
+const apiResponse = yield mapsApi.get('maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA');
 console.log('apiResponse',apiResponse);
 req.get('full url');
 
-var api2Response = yield api2.post('another url', requestBody);
+const api2Response = yield api2.post('another url', requestBody);
 ```
 
 ### postgres ###
 queries, data access objects, transactions, schema data
 ```
-var conn = { host: 'localhost', db: 'postgres', user: 'postgres', password: 'postgres' };
-var $postgres =  new $util.postgres(conn); // connection string also acceptable
+const conn = { host: 'localhost', db: 'postgres', user: 'postgres', password: 'postgres' };
+const $postgres =  new $util.postgres(conn); // connection string also acceptable
 
 if($postgres) {
   postgres.db.query('SELECT test');
 // create a test table
         const tableName = 'testers';
-        const testTable = `DROP TABLE IF EXISTS ${tableName}; CREATE TABLE ${tableName}(id CHARACTER VARYING(40))WITH(OIDS=FALSE);ALTER TABLE ${tableName} OWNER TO postgres;`;
+        const testTable = `DROP TABLE IF EXISTS ${tableName}; CREATE TABLE ${tableName}(id CHARACTER constYING(40))WITH(OIDS=FALSE);ALTER TABLE ${tableName} OWNER TO postgres;`;
         yield $postgres.db.query(testTable);
 
 // load created table into $postgres object
@@ -49,20 +57,20 @@ if($postgres) {
 // add a record
         const recordId = '4a2b';
         yield $postgres.tables[`${tableName}`].upsert({id: recordId});
-        
+
 // find created record using dao
         const daoRecord = yield  $postgres.tables[`${tableName}`].findOne('id = ?', recordId);
-        
+
 // find created record using sql
         const findRecordSQL = `SELECT * FROM ${tableName} WHERE id = '${recordId}'`;
         const sqlRecord = (yield $postgres.db.query(findRecordSQL)).rows[0];
-        
+
 // add new record
   $postgres.tables.books.upsert({id:'4324'})
 
 //within transaction, find new record and then delete it
   $postgres.db.transaction(function*() {
-    var record = yield $postgres.tables[`${tableName}`].findOne('id = ?', '4324');  
+    let record = yield $postgres.tables[`${tableName}`].findOne('id = ?', '4324');  
     yield $postgres.dao.delete(record); // delete by model throws if more than one row is affected
     yield $postgres.dao.delete('id = 4324'); // delete by query, returns count
   });
@@ -89,6 +97,7 @@ $util.fs.fetch     - (file or dir) read file or directory contents
 $util.fs.rimraf     - (path) yieldable rm -rf
 $util.fs.json.(read|write)  - (file, obj, options)
 ```
+
 
 requires node 4.2 or higher
 
