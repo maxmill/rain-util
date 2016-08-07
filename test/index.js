@@ -5,10 +5,10 @@ const coTape = require('co-tape');
 const path = require('path');
 const debug = require('debug')('test');
 
-require('rain-util-fs/test');
-require('rain-util-postgres/test');
-require('rain-util-http/test');
-require('rain-util-download/test');
+// require('rain-util-fs/test');
+// require('rain-util-postgres/test');
+// require('rain-util-http/test');
+// require('rain-util-download/test');
 
 function getTimeMSFloat() {
   const hrtime = process.hrtime();
@@ -47,7 +47,7 @@ function* runFromFsDownload(t) {
 }
 function* runArrayMapTest(t) {
   const addedNumbers = yield $util.array.map(testNumbers, function* (n) {
-    return yield n + 1;
+    return n + 1;
   });
 
   const passed = (addedNumbers[0] - testNumbers[0]) === 1;//
@@ -59,7 +59,7 @@ function* runArrayForEach(t) {
   const addedNumbers = [];
 
   yield $util.array.forEach(testNumbers, function* (n) {
-    return yield addedNumbers.push(n + 1);
+    addedNumbers.push(n + 1);
   });
 
   const passed = (addedNumbers[0] - testNumbers[0]) === 1;//
@@ -71,7 +71,7 @@ function* runArrayForEacSeries(t) {
   const startTime = getTimeMSFloat();
   const addedNumbers = [];
   yield $util.array.forEachSeries(testNumbers, function* () {
-    return yield addedNumbers.push(getTimeMSFloat() - startTime);
+    return addedNumbers.push(getTimeMSFloat() - startTime);
   });
   const passed = addedNumbers[0] < addedNumbers[1] && addedNumbers[1] < addedNumbers[2];
   t[passed === true ? 'pass' : 'fail']('array* forEachSeries');

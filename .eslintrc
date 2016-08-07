@@ -1,6 +1,7 @@
 {
   "extends": "airbnb-base",
   "rules": {
-    "comma-dangle": [2, "never"]
+    "comma-dangle": [2, "never"],
+    "require-yield":[0]
   }
 }
