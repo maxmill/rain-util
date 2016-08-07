@@ -1,18 +1,27 @@
 'use strict';
 
-const http = require('./http');
-const fs = require('./fs');
-const postgres = require('./postgres');
-const genify = require('thunkify-wrap').genify; // converts normal functions into generator functions
-const array = require('array-generators');
-const download = require('./download');
+var _arrayGenerators = require('array-generators');
 
-module.exports = // util hash
-{
-    download: download,
-    http: http,
-    fs: fs,
-    postgres: postgres,
-    genify: genify,
-    array: array
-};
+var _arrayGenerators2 = _interopRequireDefault(_arrayGenerators);
+
+var _thunkifyWrap = require('thunkify-wrap');
+
+var _http = require('./http');
+
+var _http2 = _interopRequireDefault(_http);
+
+var _fs = require('./fs');
+
+var _fs2 = _interopRequireDefault(_fs);
+
+var _postgres = require('./postgres');
+
+var _postgres2 = _interopRequireDefault(_postgres);
+
+var _download = require('./download');
+
+var _download2 = _interopRequireDefault(_download);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+module.exports = { download: _download2.default, http: _http2.default, fs: _fs2.default, postgres: _postgres2.default, genify: _thunkifyWrap.genify, array: _arrayGenerators2.default };

@@ -1,6 +1,6 @@
 {
   "name": "rain-util",
-  "version": "0.4.3",
+  "version": "0.4.6",
   "author": "Max Millien",
   "description": "Generator based swiss knife for consuming apis, accessing postgres, and managing filesystem",
   "repository": {
@@ -12,7 +12,8 @@
   "scripts": {
     "clean": "npm cache clean && rm -rf node_modules bin data",
     "build": "babel lib -d bin",
-    "postbuild":"npm test",
+    "lint": "eslint . --fix",
+    "postbuild": "npm test",
     "test": "faucet"
   },
   "keywords": [
@@ -34,11 +35,14 @@
     "schema"
   ],
   "dependencies": {
-    "array-generators":"*",
+    "array-generators": "*",
+    "debug": "^2.2.0",
+    "co-tape": "*",
     "rain-util-download": "*",
     "rain-util-fs": "*",
     "rain-util-http": "*",
     "rain-util-postgres": "*",
+    "tape-catch": "1.x",
     "thunkify-wrap": "1.x"
   },
   "devDependencies": {
@@ -47,10 +51,11 @@
     "babel-plugin-transform-object-rest-spread": "*",
     "babel-preset-es2015-node5": "*",
     "babel-preset-stage-3": "*",
-    "co-tape": "*",
+    "eslint": "^3.2.0",
+    "eslint-config-airbnb-base": "^5.0.1",
+    "eslint-plugin-import": "^1.12.0",
     "faucet": "0.x",
-    "tape": "4.x",
-    "tape-catch": "1.x"
+    "tape": "4.x"
   },
   "engines": {
     "node": ">= 4.2.0"

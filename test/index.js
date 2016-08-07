@@ -1,85 +1,87 @@
 const test = require('tape-catch');
 const $util = require('../bin');
-const $download = require('../bin/download');
+const download = require('../bin/download');
 const coTape = require('co-tape');
-const path =require('path');
+const path = require('path');
+const debug = require('debug')('test');
 
 require('rain-util-fs/test');
 require('rain-util-postgres/test');
 require('rain-util-http/test');
 require('rain-util-download/test');
 
-
-test('file download from rain-util/download', coTape(function* (t) {
-    var file = {
-        url: 'https://joyeur.files.wordpress.com/2011/07/nodejs.png',
-        src: (path.resolve('./img.png') )
-    };
-
-    var filePath = (yield $download(file));
-    console.log(filePath);
-
-    var passed = yield $util.fs.exists(file.src);
-    t[passed === true ? 'pass' : 'fail']('file download');
-
-    t.end();
-}));
-
-
-test('file download from rain-util/fs.download', coTape(function* (t) {
-    var file = {
-        url: 'https://joyeur.files.wordpress.com/2011/07/nodejs.png',
-        src: (path.resolve('./img.png') )
-    };
-
-    var filePath = (yield $util.fs.download(file));
-    console.log(filePath);
-
-    var passed = yield $util.fs.exists(file.src);
-    t[passed === true ? 'pass' : 'fail']('file download');
-
-    t.end();
-}));
-
 function getTimeMSFloat() {
-    var hrtime = process.hrtime();
-    return ( hrtime[0] * 1000000 + hrtime[1] / 1000 ) / 1000;
+  const hrtime = process.hrtime();
+  return ((hrtime[0] * 1000000) + (hrtime[1] / 1000)) / 1000;
 }
 const testNumbers = [1, 2, 3];
 
+function* runFromUtilDownload(t) {
+  const file = {
+    url: 'https://joyeur.files.wordpress.com/2011/07/nodejs.png',
+    src: (path.resolve('./img.png'))
+  };
 
-test('array* map', coTape(function* (t) {
-    const addedNumbers = yield $util.array.map(testNumbers, function*(n) {
-        return n + 1;
-    });
+  const filePath = (yield download(file));
+  debug(filePath);
 
-    var passed = (addedNumbers[0] - testNumbers[0]) === 1;//
-    t[passed === true ? 'pass' : 'fail']('array* map');
+  const passed = yield $util.fs.exists(file.src);
+  t[passed === true ? 'pass' : 'fail']('file download');
 
-    t.end();
-}));
+  t.end();
+}
 
-test('array* forEach', coTape(function* (t) {
-    const addedNumbers = [];
+function* runFromFsDownload(t) {
+  const file = {
+    url: 'https://joyeur.files.wordpress.com/2011/07/nodejs.png',
+    src: (path.resolve('./img.png'))
+  };
 
-    yield $util.array.forEach(testNumbers, function*(n) {
-        addedNumbers.push(n + 1);
-    });
+  const filePath = (yield $util.fs.download(file));
+  debug(filePath);
 
-    var passed = (addedNumbers[0] - testNumbers[0]) === 1;//
-    t[passed === true ? 'pass' : 'fail']('array* forEach');
+  const passed = yield $util.fs.exists(file.src);
+  t[passed === true ? 'pass' : 'fail']('file download');
 
-    t.end();
-}));
+  t.end();
+}
+function* runArrayMapTest(t) {
+  const addedNumbers = yield $util.array.map(testNumbers, function* (n) {
+    return yield n + 1;
+  });
 
-test('array* forEachSeries', coTape(function* (t) {
-    const startTime = getTimeMSFloat();
-    const addedNumbers = [];
-    yield $util.array.forEachSeries(testNumbers, function*(n) {
-        addedNumbers.push(getTimeMSFloat() - startTime);
-    });
-    var passed = addedNumbers[0] < addedNumbers[1] && addedNumbers[1] < addedNumbers[2];
-    t[passed === true ? 'pass' : 'fail']('array* forEachSeries');
+  const passed = (addedNumbers[0] - testNumbers[0]) === 1;//
+  t[passed === true ? 'pass' : 'fail']('array* map');
 
-    t.end();
-}));
+  t.end();
+}
+function* runArrayForEach(t) {
+  const addedNumbers = [];
+
+  yield $util.array.forEach(testNumbers, function* (n) {
+    return yield addedNumbers.push(n + 1);
+  });
+
+  const passed = (addedNumbers[0] - testNumbers[0]) === 1;//
+  t[passed === true ? 'pass' : 'fail']('array* forEach');
+
+  t.end();
+}
+function* runArrayForEacSeries(t) {
+  const startTime = getTimeMSFloat();
+  const addedNumbers = [];
+  yield $util.array.forEachSeries(testNumbers, function* () {
+    return yield addedNumbers.push(getTimeMSFloat() - startTime);
+  });
+  const passed = addedNumbers[0] < addedNumbers[1] && addedNumbers[1] < addedNumbers[2];
+  t[passed === true ? 'pass' : 'fail']('array* forEachSeries');
+
+  t.end();
+}
+
+
+test('file download from rain-util/download', coTape(runFromUtilDownload));
+test('file download from rain-util/fs.download', coTape(runFromFsDownload));
+test('array* map', coTape(runArrayMapTest));
+test('array* forEach', coTape(runArrayForEach));
+test('array* forEachSeries', coTape(runArrayForEacSeries));
