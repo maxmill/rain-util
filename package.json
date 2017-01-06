@@ -46,11 +46,9 @@
     "thunkify-wrap": "1.x"
   },
   "devDependencies": {
-    "babel": "*",
-    "babel-cli": "*",
-    "babel-plugin-transform-object-rest-spread": "*",
-    "babel-preset-es2015-node5": "*",
-    "babel-preset-stage-3": "*",
+    "babel": "6.x",
+    "babel-cli": "6.x",
+    "babel-preset-node6": "*",
     "eslint": "^3.2.0",
     "eslint-config-airbnb-base": "^5.0.1",
     "eslint-plugin-import": "^1.12.0",
@@ -58,15 +56,11 @@
     "tape": "4.x"
   },
   "engines": {
-    "node": ">= 4.2.0"
+    "node": ">= 6.9.1"
   },
   "babel": {
     "presets": [
-      "es2015-node5",
-      "stage-3"
-    ],
-    "plugins": [
-      "transform-object-rest-spread"
+      "node6"
     ]
   }
 }
